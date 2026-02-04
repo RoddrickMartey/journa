@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.32 0.08 272);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.96 0.02 272);
+  --secondary-foreground: oklch(0.32 0.08 272);
+  --muted: oklch(0.96 0.02 272);
+  --muted-foreground: oklch(0.55 0.04 272);
+  --accent: oklch(0.94 0.04 272);
+  --accent-foreground: oklch(0.32 0.08 272);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.705 0.015 286.067);
+}
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.78 0.07 272);
+  --primary-foreground: oklch(0.21 0.02 272);
+  --secondary: oklch(0.28 0.04 272);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.28 0.04 272);
+  --muted-foreground: oklch(0.7 0.05 272);
+  --accent: oklch(0.34 0.06 272);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* --- Universal Modern Scrollbar --- */
+
+  /* 1. Define the area */
+  ::-webkit-scrollbar {
+    width: 10px; /* Slightly wider to allow for the 'floating' padding effect */
+    height: 10px;
+  }
+
+  /* 2. Track - Keep it completely invisible */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* 3. The Thumb - This is the part that needs styling */
+  ::-webkit-scrollbar-thumb {
+    /* We use a solid color but add a transparent border to create 'padding' */
+    background-color: rgba(155, 155, 155, 0.4);
+    border-radius: 20px;
+    border: 3px solid transparent; /* This creates the floating effect */
+    background-clip: content-box; /* This is the secret for the 'thin' styled look */
+  }
+
+  /* 4. Hover State */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(155, 155, 155, 0.7);
+    border: 2px solid transparent; /* Gets slightly thicker on hover */
+  }
+}
+
+:root {
+  /* Animated background (light) */
+  --bg-gradient-1: oklch(0.78 0.08 272); /* light indigo */
+  --bg-gradient-2: oklch(0.86 0.06 274); /* soft indigo */
+  --bg-gradient-3: oklch(0.92 0.04 276); /* pale indigo */
+  --bg-gradient-4: oklch(0.96 0.02 278); /* misty indigo */
+  --bg-gradient-5: oklch(0.985 0 0); /* near white */
+}
+
+.dark {
+  /* Animated background (dark) */
+  --bg-gradient-1: oklch(0.42 0.12 272); /* vibrant indigo */
+  --bg-gradient-2: oklch(0.36 0.11 270); /* deep indigo */
+  --bg-gradient-3: oklch(0.3 0.09 268); /* indigo dusk */
+  --bg-gradient-4: oklch(0.24 0.07 266); /* dark indigo */
+  --bg-gradient-5: oklch(0.18 0.05 264); /* near-background indigo */
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.bg-animated {
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-1),
+    var(--bg-gradient-2),
+    var(--bg-gradient-3),
+    var(--bg-gradient-4),
+    var(--bg-gradient-5)
+  );
+  background-size: 700% 700%;
+  animation: gradient 15s ease-in-out infinite;
+}
+
+@keyframes slide-diagonal {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
+}
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  left: -50%;
+  right: -50%;
+  opacity: 0.5;
+  z-index: 0;
+  animation: slide-diagonal 15s ease-in-out infinite alternate;
+}
+
+/* Layer variations */
+.bg-layer-1 {
+  background: linear-gradient(
+    -60deg,
+    var(--bg-gradient-1) 50%,
+    var(--bg-gradient-2) 50%
+  );
+}
+
+.bg-layer-2 {
+  background: linear-gradient(
+    -60deg,
+    var(--bg-gradient-2) 50%,
+    var(--bg-gradient-3) 50%
+  );
+  animation-direction: alternate-reverse;
+  animation-duration: 22s;
+}
+
+.bg-layer-3 {
+  background: linear-gradient(
+    -60deg,
+    var(--bg-gradient-3) 50%,
+    var(--bg-gradient-4) 50%
+  );
+  animation-duration: 28s;
+}
