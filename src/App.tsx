@@ -16,6 +16,9 @@ import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminLogPage from "./pages/Admin/AdminLogPage";
 import AdminCreatePage from "./pages/Admin/AdminCreatePage";
 import CreatePostPage from "./pages/User/Main/CreatePostPage";
+import UserPostsPage from "./pages/User/Main/UserPostsPage";
+import EditPost from "./pages/User/Main/EditPostPage";
+import AuthorViewPostPage from "./pages/User/Main/AuthorViewPostPage";
 
 function App() {
   return (
@@ -25,7 +28,10 @@ function App() {
         <Route element={<ProtectUser />}>
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/user/settings" element={<SettingsPage />} />
+          <Route path="/user/posts" element={<UserPostsPage />} />
           <Route path="/posts/new" element={<CreatePostPage />} />
+          <Route path="/author/read/:slug" element={<AuthorViewPostPage />} />
+          <Route path="/user/post/edit/:id" element={<EditPost />} />
         </Route>
       </Route>
       <Route element={<ProtectAdmin />}>

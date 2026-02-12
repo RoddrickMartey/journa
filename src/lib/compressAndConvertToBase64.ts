@@ -1,3 +1,5 @@
+// src/lib/compressAndConvertToBase64
+
 import imageCompression from "browser-image-compression";
 
 /**
