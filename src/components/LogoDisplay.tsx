@@ -16,8 +16,8 @@ function LogoDisplay({ type }: LogoDisplayProps) {
   // header
   return (
     <div className="flex items-center gap-2 select-none">
-      <span className="text-2xl font-medium tracking-tight">
-        Journa<span className="text-4xl text-primary">.</span>
+      <span className="text-3xl font-medium tracking-tight ">
+        Journa<span className="text-5xl text-primary">.</span>
       </span>
     </div>
   );

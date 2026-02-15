@@ -20,13 +20,22 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
 
-  (error: AxiosError<ErrorResponse>) => {
+  async (error: AxiosError<ErrorResponse>) => {
     const status = error.response?.status;
     const data = error.response?.data;
 
     if ((status === 401 || status === 403) && data?.logout === true) {
+      console.log(data);
+
       console.log("Logout triggered by API response");
-      useUserStore.getState().logoutUser();
+      try {
+        // Call the backend logout endpoint
+        await api.post("/user/logout");
+      } catch (logoutError) {
+        console.error("Failed to logout on server:", logoutError);
+      } finally {
+        useUserStore.getState().logoutUser();
+      }
     }
 
     return Promise.reject(error);

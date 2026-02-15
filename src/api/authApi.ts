@@ -164,3 +164,5 @@ export const userUpdateSettings = async (payload: {
     throw error;
   }
 };
+
+export const userLogout = api.post("/user/logout");

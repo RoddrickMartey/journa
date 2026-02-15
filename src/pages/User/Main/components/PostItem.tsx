@@ -36,7 +36,7 @@ type PostItem = {
   };
 };
 
-function PostCard({ post }: { post: PostItem }) {
+function UserPostCard({ post }: { post: PostItem }) {
   const navigate = useNavigate();
   const category = post.category;
   const count = post._count;
@@ -151,4 +151,4 @@ function PostCard({ post }: { post: PostItem }) {
   );
 }
 
-export default PostCard;
+export default UserPostCard;

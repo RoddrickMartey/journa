@@ -52,13 +52,13 @@ export default function DisplayPost({ content }: DisplayPostProps) {
               .replace(/ +/g, "-");
 
             const headerClasses: Record<number, string> = {
-              1: "text-4xl md:text-5xl font-extrabold mb-8 tracking-tight",
-              2: "text-3xl font-bold mb-6 mt-16 tracking-tight",
-              3: "text-2xl font-semibold mb-4 mt-12",
-              4: "text-xl font-medium mb-3 mt-10",
+              1: "text-3xl md:text-5xl font-extrabold mb-8 tracking-tight",
+              2: "text-2xl font-bold mb-6 mt-16 tracking-tight",
+              3: "text-xl font-semibold mb-4 mt-12",
+              4: "text-lg font-medium mb-3 mt-10",
             };
 
-            return `<h${level} id="${id}" class="${headerClasses[level]} text-foreground scroll-mt-32 font-serif">${data.text}</h${level}>`;
+            return `<h${level} id="${id}" class="${headerClasses[level]} text-foreground scroll-mt-32">${data.text}</h${level}>`;
           }
           case "paragraph":
             return `<p class="mb-7 text-card-foreground/90 antialiased">${data?.text}</p>`;
@@ -79,7 +79,9 @@ export default function DisplayPost({ content }: DisplayPostProps) {
           case "quote":
             return `<blockquote class="my-12 border-l-4 border-primary/30 pl-8 py-2 italic text-muted-foreground bg-muted/5 rounded-r-2xl font-serif"><p class="text-xl leading-relaxed">"${data?.text}"</p>${data?.caption ? `<cite class="not-italic block text-sm font-semibold mt-4 text-foreground/50">— ${data.caption}</cite>` : ""}</blockquote>`;
           case "code":
-            return `<div class="my-10 rounded-2xl bg-zinc-950 p-6 font-mono text-[14px] text-zinc-300 overflow-x-auto border border-white/5 shadow-2xl relative group"><div class="absolute top-3 right-4 text-[10px] uppercase tracking-widest text-zinc-600 group-hover:text-zinc-400 transition-colors">Code</div><code class="block leading-relaxed">${data?.code}</code></div>`;
+            return ` <div class="my-10 rounded-2xl bg-zinc-950 p-6 font-mono text-[14px] text-zinc-300 overflow-x-auto border border-white/5 shadow-2xl relative group">
+      <div class="absolute top-3 right-4 text-[10px] uppercase tracking-widest               text-zinc-600 group-hover:text-zinc-400 transition-colors">Code</div>
+      <code class="block leading-relaxed whitespace-pre">${data?.code}</code></div>`;
           default:
             return "";
         }
@@ -93,7 +95,14 @@ export default function DisplayPost({ content }: DisplayPostProps) {
     <div className="w-full bg-card min-h-screen selection:bg-primary/20">
       <main className="max-w-3xl mx-auto px-6 py-12 lg:py-24">
         <article
-          className={`${typographyStyles} prose prose-stone dark:prose-invert max-w-none prose-headings:text-foreground transition-all duration-300`}
+          className={`
+            ${typographyStyles} 
+            prose prose-stone dark:prose-invert max-w-none 
+            /* Targeting child headers and forcing the theme serif */
+            [&_h1]:!font-serif [&_h2]:!font-serif [&_h3]:!font-serif [&_h4]:!font-serif
+            prose-headings:text-foreground 
+            transition-all duration-300
+          `}
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </main>

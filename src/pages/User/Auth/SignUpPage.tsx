@@ -84,12 +84,7 @@ function SignUpPage() {
 
   return (
     <AnimatedBackground>
-      {/* Responsive Container Logic:
-        - max-w-[calc(100vw-2rem)]: Ensures card never touches edges on mobile
-        - sm:max-w-md: Standard width for desktop
-        - max-h-[95vh] + overflow-y-auto: Allows scrolling if the form is taller than the phone screen
-      */}
-      <div className="w-full max-w-[calc(100vw-2rem)] sm:max-w-md p-5 md:p-8 flex flex-col gap-5 bg-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-border/50 my-4 max-h-[95vh] overflow-y-auto ">
+      <div className="w-full max-w-[calc(100vw-2rem)] sm:max-w-md p-5 md:p-8 flex flex-col gap-5 bg-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-primary/10 my-4 max-h-[95vh] overflow-y-auto transition-all duration-300">
         {/* Header */}
         <div className="flex flex-col items-center gap-2">
           <div className="flex w-full justify-between items-center mb-1">
@@ -97,7 +92,7 @@ function SignUpPage() {
             <LogoDisplay type="card" />
             <ThemeToggle />
           </div>
-          <Label className="text-xl font-bold tracking-tight">
+          <Label className="text-2xl font-serif font-bold tracking-tight text-foreground">
             Create an Account
           </Label>
           <p className="text-xs text-muted-foreground text-center">
@@ -112,15 +107,15 @@ function SignUpPage() {
         >
           {/* Display Name */}
           <div className="space-y-1">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 placeholder="Display Name"
                 {...register("displayName")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10"
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <User className="w-4 h-4 text-muted-foreground" />
+                <User className="w-4 h-4 text-primary/70" />
               </InputGroupAddon>
             </InputGroup>
             {errors.displayName && (
@@ -132,15 +127,15 @@ function SignUpPage() {
 
           {/* Username */}
           <div className="space-y-1">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 placeholder="Username"
                 {...register("username")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10"
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <User className="w-4 h-4 text-muted-foreground" />
+                <User className="w-4 h-4 text-primary/70" />
               </InputGroupAddon>
             </InputGroup>
             {errors.username && (
@@ -152,15 +147,15 @@ function SignUpPage() {
 
           {/* Email */}
           <div className="space-y-1">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 placeholder="Email"
                 {...register("email")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10"
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <Mail className="w-4 h-4 text-muted-foreground" />
+                <Mail className="w-4 h-4 text-primary/70" />
               </InputGroupAddon>
             </InputGroup>
             {errors.email && (
@@ -172,16 +167,16 @@ function SignUpPage() {
 
           {/* Password */}
           <div className="space-y-1">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 {...register("password")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10"
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <Key className="w-4 h-4 text-muted-foreground" />
+                <Key className="w-4 h-4 text-primary/70" />
               </InputGroupAddon>
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
@@ -189,6 +184,7 @@ function SignUpPage() {
                   size="icon-xs"
                   onClick={() => setShowPassword((prev) => !prev)}
                   disabled={isSubmitting}
+                  className="hover:text-primary transition-colors"
                 >
                   {showPassword ? (
                     <EyeClosed className="w-4 h-4" />
@@ -207,16 +203,16 @@ function SignUpPage() {
 
           {/* Confirm Password */}
           <div className="space-y-1">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm Password"
                 {...register("confirmPassword")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10"
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <Key className="w-4 h-4 text-muted-foreground" />
+                <Key className="w-4 h-4 text-primary/70" />
               </InputGroupAddon>
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
@@ -224,6 +220,7 @@ function SignUpPage() {
                   size="icon-xs"
                   onClick={() => setShowConfirmPassword((prev) => !prev)}
                   disabled={isSubmitting}
+                  className="hover:text-primary transition-colors"
                 >
                   {showConfirmPassword ? (
                     <EyeClosed className="w-4 h-4" />
@@ -242,11 +239,11 @@ function SignUpPage() {
 
           <Button
             type="submit"
-            className="mt-2 h-11 md:h-10 w-full"
+            className="mt-2 h-11 md:h-10 w-full bg-primary text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/20"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Signing Up..." : "Sign Up"}
-            {isSubmitting && <Spinner className="ml-2 h-4 w-4" />}
+            {isSubmitting && <Spinner className="ml-2 h-4 w-4 animate-spin" />}
           </Button>
         </form>
 
@@ -257,7 +254,7 @@ function SignUpPage() {
           </span>
           <Link
             to="/auth/login"
-            className="text-primary font-semibold hover:underline transition-all"
+            className="text-primary font-bold hover:text-accent-foreground transition-all hover:underline"
           >
             Login
           </Link>

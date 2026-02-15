@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import PostCard from "./components/PostItem";
+import UserPostCard from "./components/PostItem";
 import { Search, Trash2, LayoutGrid, X } from "lucide-react";
 import { PostCardSkeleton } from "@/components/SkeletonComponent";
 
@@ -168,7 +168,7 @@ function UserPostsPage() {
             <div className="grid grid-cols-1 gap-4 mt-4">
               {currentPosts.map((post) => (
                 <div key={post.id}>
-                  <PostCard post={post} />
+                  <UserPostCard post={post} />
                 </div>
               ))}
             </div>

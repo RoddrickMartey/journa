@@ -68,12 +68,7 @@ function LoginPage() {
 
   return (
     <AnimatedBackground>
-      {/* Responsiveness: 
-          - max-w-[calc(100vw-2rem)] prevents the card from touching screen edges on mobile.
-          - sm:max-w-md sets a fixed max width for tablet/desktop.
-          - px-4 md:px-6 adjusts internal padding based on screen size.
-      */}
-      <div className="w-full max-w-[calc(100vw-2.5rem)] sm:max-w-md p-6 md:p-8 flex flex-col gap-6 bg-secondary/80 backdrop-blur-md rounded-2xl shadow-lg border border-border/50 transition-all duration-300">
+      <div className="w-full max-w-[calc(100vw-2.5rem)] sm:max-w-md p-6 md:p-8 flex flex-col gap-6 bg-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-primary/10 transition-all duration-300">
         {/* Logo & Header */}
         <div className="flex flex-col items-center gap-4">
           <div className="flex w-full justify-between items-center mb-2">
@@ -81,22 +76,25 @@ function LoginPage() {
             <LogoDisplay type="card" />
             <ThemeToggle />
           </div>
-          <Label className="text-xl font-semibold tracking-tight">Login</Label>
+          {/* Increased font weight and used primary color for the label to anchor the design */}
+          <Label className="text-2xl font-serif font-bold tracking-tight text-foreground">
+            Login
+          </Label>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           {/* Username */}
           <div className="flex flex-col gap-1.5">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 placeholder="Username"
                 {...register("username")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10" // Taller inputs on mobile for better touch
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <User className="text-muted-foreground w-4 h-4" />
+                <User className="text-primary/70 w-4 h-4" />
               </InputGroupAddon>
             </InputGroup>
             {errors.username && (
@@ -108,16 +106,16 @@ function LoginPage() {
 
           {/* Password */}
           <div className="flex flex-col gap-1.5">
-            <InputGroup>
+            <InputGroup className="bg-background/50 rounded-lg overflow-hidden border-border/50 focus-within:border-primary/50 transition-colors">
               <InputGroupInput
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 {...register("password")}
                 disabled={isSubmitting}
-                className="h-11 md:h-10"
+                className="h-11 md:h-10 bg-transparent border-none focus-visible:ring-0"
               />
               <InputGroupAddon align="inline-start">
-                <Key className="text-muted-foreground w-4 h-4" />
+                <Key className="text-primary/70 w-4 h-4" />
               </InputGroupAddon>
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
@@ -125,6 +123,7 @@ function LoginPage() {
                   size="icon-xs"
                   onClick={() => setShowPassword((prev) => !prev)}
                   disabled={isSubmitting}
+                  className="hover:text-primary transition-colors"
                 >
                   {showPassword ? (
                     <EyeClosed className="w-4 h-4" />
@@ -143,11 +142,11 @@ function LoginPage() {
 
           <Button
             type="submit"
-            className="mt-2 h-11 md:h-10 flex items-center justify-center gap-2"
+            className="mt-2 h-11 md:h-10 flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:opacity-90 shadow-md shadow-primary/20"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Logging In..." : "Login"}
-            {isSubmitting && <Spinner className="w-4 h-4" />}
+            {isSubmitting && <Spinner className="w-4 h-4 animate-spin" />}
           </Button>
         </form>
 
@@ -156,7 +155,7 @@ function LoginPage() {
           <span className="text-muted-foreground">Don't have an account?</span>
           <Link
             to="/auth/signup"
-            className="text-primary font-medium hover:underline"
+            className="text-primary font-semibold hover:text-accent-foreground transition-colors hover:underline"
           >
             Sign Up
           </Link>

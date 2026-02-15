@@ -7,7 +7,7 @@ import SocialsUpdate from "./SocialsUpdate";
 
 function ProfileDetails() {
   return (
-    <section className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl space-y-8">
+    <section className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl space-y-8 ">
       <Separator />
 
       <header className="space-y-1">
