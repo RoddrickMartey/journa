@@ -100,7 +100,7 @@ function ChangeAvatarAndCoverImage() {
   return (
     <div className="relative">
       {/* Cover */}
-      <div className="relative w-full h-40 sm:h-48 rounded-lg overflow-hidden bg-card">
+      <div className="relative w-full h-40 sm:h-48 rounded-lg overflow-hidden bg-accent">
         {cover && (
           <img src={cover} alt="Cover" className="w-full h-full object-cover" />
         )}

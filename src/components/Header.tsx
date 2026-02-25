@@ -3,7 +3,7 @@ import LogoDisplay from "./LogoDisplay";
 import ThemeToggle from "./theme-toggle";
 import AvatarMenu from "./AvatarMenu";
 import { Button } from "./ui/button";
-import { SquarePenIcon, Menu } from "lucide-react";
+import { SquarePenIcon, Menu, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Tooltip,
@@ -31,7 +31,20 @@ function Header() {
         {/* Right: Actions */}
         <div className="flex items-center gap-x-2 md:gap-x-4">
           <ThemeToggle />
-
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="ghost" asChild>
+                  <Link to={isAuthorized ? "/explore" : "/auth/login"}>
+                    <Sparkles className="h-5 w-5" />
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Explore Posts</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           {/* Create Post Button - Always visible, icon only on mobile */}
           <TooltipProvider>
             <Tooltip>

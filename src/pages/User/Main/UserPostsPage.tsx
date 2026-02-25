@@ -16,12 +16,14 @@ import {
 import UserPostCard from "./components/PostItem";
 import { Search, Trash2, LayoutGrid, X } from "lucide-react";
 import { PostCardSkeleton } from "@/components/SkeletonComponent";
+import { useUserStore } from "@/store/userStore";
 
 type SortOption = "updated-asc" | "updated-desc" | "title-asc" | "title-desc";
 
 function UserPostsPage() {
+  const { profile } = useUserStore();
   const { data, isError, isFetching, refetch } = useQuery({
-    queryKey: ["user-posts"],
+    queryKey: [`user-posts-${profile?.displayName}`],
     queryFn: getUserPostsCall,
     staleTime: 1000 * 60 * 5,
   });

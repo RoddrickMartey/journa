@@ -13,10 +13,9 @@ import {
 } from "@/components/PostItemCounts";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { useTheme } from "@/context/theme-context";
+import CategoryBadge from "@/components/CategoryIcon";
 function AuthorViewPostPage() {
   const { slug } = useParams();
-  const { theme } = useTheme();
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["author-post", slug],
@@ -40,20 +39,6 @@ function AuthorViewPostPage() {
   const category = data!.category;
   const count = data?._count;
 
-  // Compute resolvedTheme dynamically
-  const resolvedTheme =
-    theme === "system"
-      ? window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-      : theme;
-
-  const catTheme =
-    resolvedTheme === "dark"
-      ? category.colorDark || "#333"
-      : category.colorLight || "#eee";
-
-  const textColor = resolvedTheme === "dark" ? "#000" : "#fff";
   return (
     <div className="max-w-5xl min-h-screen my-10 mx-auto bg-card border shadow-lg rounded-2xl overflow-hidden flex flex-col">
       {/* 1. Cover Image - Full Width of container */}
@@ -70,15 +55,7 @@ function AuthorViewPostPage() {
       <div className="px-6 md:px-16 py-10">
         {/* 2. Category & Title Section */}
         <header className="space-y-6 mb-12 text-center md:text-left">
-          {category && (
-            <Badge
-              variant="secondary"
-              className="px-3 py-1 text-xs uppercase tracking-widest"
-              style={{ backgroundColor: catTheme, color: textColor }}
-            >
-              {category.name}
-            </Badge>
-          )}
+          {category && <CategoryBadge category={category} />}
 
           <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight text-foreground leading-tight">
             {data?.title}
@@ -107,9 +84,6 @@ function AuthorViewPostPage() {
                 </span>
                 <span className="text-xs text-muted-foreground">Author</span>
               </div>
-              <Button variant="outline" size="sm" className="ml-2 rounded-full">
-                Follow
-              </Button>
             </div>
 
             <div className="flex items-center gap-6 text-muted-foreground bg-muted/30 px-6 py-3 rounded-full border border-border/50">

@@ -27,10 +27,11 @@ import { useAdminStore } from "@/store/adminStore";
 const userLoginSchema = z.object({
   username: z
     .string({ error: "Username is required" })
-    .min(8, "Username must be 8 characters or more"),
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username cannot exceed 20 characters"),
   password: z
     .string({ error: "Password is required" })
-    .min(8, "Password must be 8 characters or more"),
+    .min(8, "Password must be at least 8 characters"),
 });
 
 type UserLoginType = z.infer<typeof userLoginSchema>;

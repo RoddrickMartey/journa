@@ -38,7 +38,7 @@ function AdminMainPage() {
         icon: <Users className="w-8 h-8" />,
         color:
           "from-purple-500/20 to-purple-600/20 hover:from-purple-500/30 hover:to-purple-600/30",
-        path: "/admin",
+        path: "/admin/users",
       },
       {
         id: "categories",
@@ -65,7 +65,16 @@ function AdminMainPage() {
         icon: <FileText className="w-8 h-8" />,
         color:
           "from-pink-500/20 to-pink-600/20 hover:from-pink-500/30 hover:to-pink-600/30",
-        path: "/admin",
+        path: "/admin/posts",
+      },
+      {
+        id: "reports",
+        title: "Reports",
+        description: "View and manage user reports on content and behavior",
+        icon: <FileText className="w-8 h-8" />,
+        color:
+          "from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 hover:to-amber-600/30",
+        path: "/admin/reports",
       },
     ];
 

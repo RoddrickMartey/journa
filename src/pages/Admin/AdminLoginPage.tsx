@@ -15,7 +15,7 @@ import {
 import { Eye, EyeClosed, Key, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { loginAdmin } from "@/api/adminAuthApi";
 import { isAxiosError } from "axios";
@@ -27,10 +27,11 @@ import { useUserStore } from "@/store/userStore";
 const userLoginSchema = z.object({
   username: z
     .string({ error: "Username is required" })
-    .min(8, "Username must be 8 characters or more"),
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username cannot exceed 20 characters"),
   password: z
     .string({ error: "Password is required" })
-    .min(8, "Password must be 8 characters or more"),
+    .min(8, "Password must be at least 8 characters"),
 });
 
 type UserLoginType = z.infer<typeof userLoginSchema>;
@@ -39,7 +40,7 @@ function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { setUser } = useAdminStore();
-  const { logoutUser } = useUserStore();
+  const { logoutUser: clearUserSession } = useUserStore();
   const {
     register,
     handleSubmit,
@@ -53,8 +54,8 @@ function AdminLoginPage() {
     try {
       const res = await loginAdmin(data);
       setUser(res.data.admin);
+      clearUserSession();
       toast.success("Admin is logged in");
-      logoutUser();
       navigate("/admin");
     } catch (error) {
       if (isAxiosError(error)) {
@@ -147,17 +148,6 @@ function AdminLoginPage() {
             {isSubmitting && <Spinner className="w-4 h-4" />}
           </Button>
         </form>
-
-        {/* Footer */}
-        <div className="flex flex-wrap justify-center items-center gap-x-2 text-sm mt-2 text-center">
-          <span className="text-muted-foreground">Don't have an account?</span>
-          <Link
-            to="/auth/signup"
-            className="text-primary font-medium hover:underline"
-          >
-            Sign Up
-          </Link>
-        </div>
       </div>
     </main>
   );

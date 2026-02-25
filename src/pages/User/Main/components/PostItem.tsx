@@ -5,11 +5,11 @@ import {
   LikesCount,
   CommentsCount,
 } from "@/components/PostItemCounts";
-import { useTheme } from "@/context/theme-context";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import PostItemBottom from "./PostItemBottom";
 import { toast } from "sonner";
+import CategoryBadge from "@/components/CategoryIcon";
 
 type PostItem = {
   id: string;
@@ -51,23 +51,6 @@ function UserPostCard({ post }: { post: PostItem }) {
     }
   };
 
-  const { theme } = useTheme();
-
-  // Compute resolvedTheme dynamically
-  const resolvedTheme =
-    theme === "system"
-      ? window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-      : theme;
-
-  const catTheme =
-    resolvedTheme === "dark"
-      ? category.colorDark || "#333"
-      : category.colorLight || "#eee";
-
-  const textColor = resolvedTheme === "dark" ? "#000" : "#fff";
-
   return (
     <div className="flex flex-col space-y-4">
       <div className="w-full bg-card p-4 rounded-lg border shadow-md flex flex-col space-y-4 ">
@@ -90,12 +73,7 @@ function UserPostCard({ post }: { post: PostItem }) {
 
             {/* Category & Tags - Wraps on small screens */}
             <div className="flex flex-wrap items-center gap-3 pt-1">
-              <p
-                className="px-2.5 py-0.5 rounded-md border text-xs md:text-sm font-medium whitespace-nowrap"
-                style={{ backgroundColor: catTheme, color: textColor }}
-              >
-                {category.name}
-              </p>
+              <CategoryBadge category={category} />
               {tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 text-xs md:text-sm">
                   {tags.map((tag, i) => (

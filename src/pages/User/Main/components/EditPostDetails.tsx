@@ -45,6 +45,9 @@ type UpdatePost = z.infer<typeof updatePostSchema>;
 type Category = {
   id: string;
   name: string;
+  colorLight: string;
+  colorDark: string;
+  description: string | null;
 };
 
 interface Props {
@@ -135,7 +138,7 @@ function EditPostDetails({ post, postId }: Props) {
       <div className="space-y-3">
         <label className="text-sm font-medium">Cover Image</label>
         {post.coverImageUrl ? (
-          <div className="relative group w-full max-h-80 overflow-hidden rounded-xl border">
+          <div className="relative group w-full max-h-120 overflow-hidden rounded-xl border">
             <img
               src={post.coverImageUrl}
               alt="Cover"
@@ -240,7 +243,12 @@ function EditPostDetails({ post, postId }: Props) {
                 <SelectContent>
                   {categories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id}>
-                      {cat.name}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span>{cat.name}</span>
+                        <span className="text-xs sm:text-sm text-muted-foreground italic">
+                          {cat.description}
+                        </span>
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -255,7 +263,7 @@ function EditPostDetails({ post, postId }: Props) {
             <div className="flex-1">
               <InputGroupTextarea
                 {...form.register("summary")}
-                className="min-h-[100px] border rounded-lg bg-input"
+                className="min-h-25 border rounded-lg bg-input"
                 disabled={isInputUpdate}
               />
               <p className="text-[10px] text-muted-foreground mt-1 text-right">

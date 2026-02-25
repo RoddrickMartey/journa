@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useUserStore } from "@/store/userStore";
 
 type PostItemBottomProps = {
   id: string;
@@ -30,11 +31,14 @@ function PostItemBottom({
   isDeleted,
   published,
 }: PostItemBottomProps) {
+  const { profile } = useUserStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const invalidate = () =>
-    queryClient.invalidateQueries({ queryKey: ["user-posts"] });
+    queryClient.invalidateQueries({
+      queryKey: [`user-posts-${profile?.displayName}`],
+    });
 
   // Mutation: Toggle Publish
   const { mutate: togglePublish, isPending: isPublishing } = useMutation({

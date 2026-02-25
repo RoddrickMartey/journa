@@ -19,6 +19,12 @@ import CreatePostPage from "./pages/User/Main/CreatePostPage";
 import UserPostsPage from "./pages/User/Main/UserPostsPage";
 import EditPost from "./pages/User/Main/EditPostPage";
 import AuthorViewPostPage from "./pages/User/Main/AuthorViewPostPage";
+import ReadPostPage from "./pages/User/Main/ReadPostPage";
+import UserPublicProfileViewPage from "./pages/User/Main/UserPublicProfileViewPage";
+import AdminUsersPage from "./pages/Admin/AdminUsersPage";
+import AdminPostsPages from "./pages/Admin/AdminPostsPages";
+import AdminReportsPage from "./pages/Admin/AdminReportsPage";
+import ExplorePage from "./pages/User/Main/ExplorePage";
 
 function App() {
   return (
@@ -26,11 +32,17 @@ function App() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route element={<ProtectUser />}>
+          <Route path="/explore" element={<ExplorePage />} />
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/user/settings" element={<SettingsPage />} />
           <Route path="/user/posts" element={<UserPostsPage />} />
+          <Route
+            path="/view/user/:username"
+            element={<UserPublicProfileViewPage />}
+          />
           <Route path="/posts/new" element={<CreatePostPage />} />
           <Route path="/author/read/:slug" element={<AuthorViewPostPage />} />
+          <Route path="/read/:slug" element={<ReadPostPage />} />
           <Route path="/user/post/edit/:id" element={<EditPost />} />
         </Route>
       </Route>
@@ -41,6 +53,9 @@ function App() {
           <Route path="/admin/categories" element={<AdminCategories />} />
           <Route path="/admin/logs" element={<AdminLogPage />} />
           <Route path="/admin/list" element={<AdminCreatePage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/posts" element={<AdminPostsPages />} />
+          <Route path="/admin/reports" element={<AdminReportsPage />} />
         </Route>
       </Route>
       <Route path="/admin/login" element={<AdminLoginPage />} />

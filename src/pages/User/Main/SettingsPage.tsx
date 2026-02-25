@@ -63,7 +63,7 @@ export default function SettingsPage() {
 
   return (
     <main className="min-h-screen w-full flex items-center justify-center p-6 ">
-      <section className="w-full max-w-lg space-y-8 animate-in fade-in zoom-in duration-300">
+      <section className="w-full max-w-lg space-y-8 animate-in fade-in zoom-in duration-300 bg-background p-5 rounded-xl shadow-sm  border">
         {/* Header Section */}
         <div className="space-y-2 text-center sm:text-left">
           <div className="flex items-center gap-2 justify-center sm:justify-start">
@@ -75,10 +75,7 @@ export default function SettingsPage() {
           </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6 bg-card border p-8 rounded-xl shadow-sm"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8 ">
           {/* Theme */}
           <div className="space-y-3">
             <Label className="flex items-center gap-2">

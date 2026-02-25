@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import EditorJS, { type OutputData } from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Code from "@editorjs/code";
 import Quote from "@editorjs/quote";
-import TextStyle from "@skchawala/editorjs-text-style";
 import ImageTool from "@editorjs/image";
 import { api } from "@/lib/axios";
 import { compressAndConvertToBase64 } from "@/lib/compressAndConvertToBase64";
@@ -12,13 +13,13 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import { format } from "date-fns";
+import { EditorCropImage } from "../../components/EditorCropImage";
 
 interface EditContentProps {
   content: OutputData | null;
   postId: string;
   loading: boolean;
   refetch?: () => void;
-  // Simplified the type to a plain async function to avoid mutation version conflicts
   saveContent: (data: OutputData) => Promise<any>;
 }
 
@@ -31,7 +32,20 @@ export const EditContent = ({
   const editorRef = useRef<EditorJS | null>(null);
   const isInitialized = useRef(false);
 
-  // 1. Initialize EditorJS only once on mount
+  // Updated Refs to handle both success and failure
+  const cropResolverRef = useRef<{
+    resolve: (file: File) => void;
+    reject: () => void;
+  } | null>(null);
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+
+  const openCropModal = (src: string): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      cropResolverRef.current = { resolve, reject };
+      setCropImageSrc(src);
+    });
+  };
+
   useEffect(() => {
     if (isInitialized.current) return;
 
@@ -40,7 +54,8 @@ export const EditContent = ({
       tools: {
         header: {
           class: Header as any,
-          inlineToolbar: true,
+          inlineToolbar: true, // Allows bold/italic inside the header
+          shortcut: "CMD+SHIFT+H",
           config: {
             placeholder: "Enter a header",
             levels: [1, 2, 3, 4],
@@ -61,23 +76,37 @@ export const EditContent = ({
           },
         },
         code: Code,
-        textStyle: { class: TextStyle },
         image: {
           class: ImageTool,
           config: {
             uploader: {
               uploadByFile: async (file: File) => {
-                const base64 = await compressAndConvertToBase64(file);
-                const res = await api.post("/posts/post-image-upload", {
-                  imageBase64: base64,
-                });
-                return { success: 1, file: { url: res.data.url } };
+                try {
+                  const base64 = await compressAndConvertToBase64(file);
+
+                  // This will now throw an error if cropResolverRef.current.reject() is called
+                  const croppedFile = await openCropModal(base64);
+
+                  const compressed =
+                    await compressAndConvertToBase64(croppedFile);
+
+                  const res = await api.post("/posts/post-image-upload", {
+                    imageBase64: compressed,
+                  });
+
+                  return {
+                    success: 1,
+                    file: { url: res.data.url },
+                  };
+                } catch (err) {
+                  console.log("Upload or crop cancelled/failed");
+                  return { success: 0 }; // Tells EditorJS upload failed
+                }
               },
             },
           },
         },
       },
-      // Initial data only
       data: content ?? undefined,
       placeholder: content ? undefined : "Start writing...",
       onReady: () => {
@@ -87,7 +116,6 @@ export const EditContent = ({
 
     isInitialized.current = true;
 
-    // Cleanup: destroy editor when component unmounts
     return () => {
       if (
         editorRef.current &&
@@ -98,15 +126,13 @@ export const EditContent = ({
         isInitialized.current = false;
       }
     };
-  }, []); // Empty array ensures this only runs once
+  }, []);
 
-  // 2. Separate logic for handling ReadOnly/Loading state
   useEffect(() => {
     const editor = editorRef.current;
     if (editor && editor.isReady) {
       editor.isReady
         .then(() => {
-          // Safe check for readOnly toggle
           if (editor.readOnly) {
             editor.readOnly.toggle(loading);
           }
@@ -117,7 +143,6 @@ export const EditContent = ({
 
   const save = async () => {
     if (!editorRef.current) return;
-
     try {
       const data = await editorRef.current.save();
       await saveContent(data);
@@ -150,7 +175,12 @@ export const EditContent = ({
             className="prose prose-stone max-w-none dark:prose-invert min-h-100 
             [&_.ce-block__content]:max-w-none 
             [&_.ce-toolbar__content]:max-w-none 
-            [&_.ce-toolbar]:-left-4"
+            [&_.ce-toolbar]:-left-4
+            [&_.ce-header[data-level='1']]:text-4xl
+            [&_.ce-header[data-level='2']]:text-3xl
+            [&_.ce-header[data-level='3']]:text-2xl
+            [&_.ce-header[data-level='4']]:text-xl
+            [&_.ce-header]:font-bold"
           />
         </div>
 
@@ -171,6 +201,24 @@ export const EditContent = ({
           </Button>
         </div>
       </div>
+
+      {cropImageSrc && (
+        <EditorCropImage
+          imageSrc={cropImageSrc}
+          // The aspect is now handled internally by the component's state
+          loading={loading}
+          onCancel={() => {
+            cropResolverRef.current?.reject(); // Reject the promise
+            cropResolverRef.current = null;
+            setCropImageSrc(null);
+          }}
+          onComplete={(file) => {
+            cropResolverRef.current?.resolve(file); // Resolve the promise
+            cropResolverRef.current = null;
+            setCropImageSrc(null);
+          }}
+        />
+      )}
     </div>
   );
 };

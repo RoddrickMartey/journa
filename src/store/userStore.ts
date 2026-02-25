@@ -22,6 +22,7 @@ interface UserSettings {
 }
 
 interface User {
+  id: string;
   email: string;
   active: boolean;
   suspended: boolean;

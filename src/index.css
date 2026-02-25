@@ -298,8 +298,8 @@
    ========================= */
 
 .dark #editorjs ::selection {
-  background: hsl(var(--primary) / 0.5);
-  color: #fff;
+  background-color: #3898ec; /* The highlight background */
+  color: #ffffff; /* The text color when selected */
 }
 
 .dark .ce-block--selected .ce-block__content {

@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import type { DetailedPost } from "@/types/post";
 import type { OutputData } from "@editorjs/editorjs";
 
 type CreatePost = {
@@ -136,4 +137,17 @@ export const getUserPostsCall = async () => {
 export const getPostForAuthorView = async (slug: string) => {
   const { data } = await api.get<PostRead>(`/posts/author-view/${slug}`);
   return data;
+};
+export const getPost = async (slug: string) => {
+  const { data } = await api.get<DetailedPost>(`/posts/${slug}`);
+  return data;
+};
+
+// Example api/postApi.ts
+export const incrementView = async (
+  slug: string,
+  options?: { signal?: AbortSignal },
+) => {
+  const response = await api.post(`/posts/${slug}/view`, {}, options);
+  return response.data;
 };

@@ -11,6 +11,7 @@ import {
 import { User, Settings, FileText, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getInitials } from "@/lib/getInitials";
+import { userLogout } from "@/api/authApi";
 
 function AvatarMenu() {
   const { profile, logoutUser } = useUserStore();
@@ -18,6 +19,16 @@ function AvatarMenu() {
 
   const avatarUrl = profile?.avatarUrl;
   const displayName = profile?.displayName || "User";
+  const logout = async () => {
+    try {
+      await userLogout();
+      logoutUser();
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Still logout locally for security
+      logoutUser();
+    }
+  };
 
   // Logic for initials: Split name, take first two, get first char, uppercase
 
@@ -72,7 +83,7 @@ function AvatarMenu() {
 
         <DropdownMenuItem
           className="cursor-pointer text-destructive focus:text-destructive"
-          onClick={() => logoutUser()}
+          onClick={() => logout()}
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Logout</span>

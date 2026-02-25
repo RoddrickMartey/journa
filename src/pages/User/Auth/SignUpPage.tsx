@@ -21,12 +21,36 @@ import { signUpUser } from "@/api/authApi";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 import type { ErrorResponse } from "@/lib/axios";
-
+// List of reserved words based on your Route paths
+const reservedUsernames = [
+  "admin",
+  "auth",
+  "user",
+  "posts",
+  "read",
+  "api",
+  "settings",
+  "profile",
+  "login",
+  "signup",
+  "author",
+  "main",
+  "dashboard",
+];
 const userSignupSchema = z
   .object({
     username: z
       .string({ error: "Username is required" })
-      .min(8, "Username must be at least 8 characters long"),
+      .min(3, "Username must be at least 3 characters long") // Usually 3-5 is better for UX than 8
+      .max(20, "Username cannot exceed 20 characters")
+      .regex(
+        /^[a-zA-Z0-9._]+$/,
+        "Usernames can only contain letters, numbers, periods, and underscores",
+      )
+      .transform((val) => val.toLowerCase()) // Always store as lowercase
+      .refine((val) => !reservedUsernames.includes(val), {
+        message: "This username is reserved and cannot be used",
+      }),
     email: z
       .string({ error: "Email is required" })
       .email("Invalid email address"),
