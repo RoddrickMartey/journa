@@ -14,6 +14,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Key, Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { changeUserPassword } from "@/api/authApi";
+import { isAxiosError } from "axios";
 
 /* =======================
    Schema
@@ -61,9 +62,13 @@ function PasswordChange() {
       toast.success("Password updated successfully!");
       reset();
       setIsEditing(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to update password");
+    } catch (error: Error | unknown) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message || "Something went wrong";
+        toast.error(message);
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

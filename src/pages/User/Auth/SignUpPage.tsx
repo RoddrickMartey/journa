@@ -283,6 +283,18 @@ function SignUpPage() {
             Login
           </Link>
         </div>
+        <div className="w-full flex items-center gap-3 py-2 px-4 rounded-xl bg-primary/5 border border-primary/10">
+          <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+          <p className="text-[13px] text-muted-foreground">
+            Just looking around?
+            <Link
+              to="/auth/login"
+              className="ml-1.5 text-primary font-medium hover:underline"
+            >
+              Try the Guest Demo →
+            </Link>
+          </p>
+        </div>
       </div>
     </AnimatedBackground>
   );

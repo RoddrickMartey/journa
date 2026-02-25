@@ -15,6 +15,7 @@ import { userUpdateEmail, userUpdateUsername } from "@/api/authApi";
 import { useUserStore } from "@/store/userStore";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
+import { isAxiosError } from "axios";
 
 /* =======================
    Schemas
@@ -82,10 +83,14 @@ function UserDetails() {
       const res = await userUpdateEmail({ email: data.email });
       console.log("Update email response:", res);
       updateUser({ email: res.email });
-    } catch (error) {
-      console.log(error);
+    } catch (error: Error | unknown) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message || "Something went wrong";
+        toast.error(message);
+      } else {
+        toast.error("Something went wrong");
+      }
       resetFieldEmail("email");
-      toast.error("Something went wrong");
     }
     setEditEmail(false);
   };

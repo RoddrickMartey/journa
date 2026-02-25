@@ -14,6 +14,7 @@ import { userUpdateDisplayName } from "@/api/authApi";
 import { useUserStore } from "@/store/userStore";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
+import { isAxiosError } from "axios";
 
 /* =======================
    Schema
@@ -59,9 +60,14 @@ function DisplayNameUpdate() {
       updateProfile({ displayName: res.displayName });
       toast.success("Display name updated");
       setEditDisplayName(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+    } catch (error: Error | unknown) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message || "Something went wrong";
+        toast.error(message);
+      } else {
+        toast.error("Something went wrong");
+      }
+
       reset({ displayName: profile?.displayName || "" });
     }
   };

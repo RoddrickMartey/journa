@@ -5,6 +5,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { useUserStore } from "@/store/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isAxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -35,9 +36,13 @@ function BioUpdate() {
       updateProfile({ bio: result.bio });
       toast.success("Bio updated successfully!");
       setEditMode(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to update bio. Please try again.");
+    } catch (error: Error | unknown) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message || "Something went wrong";
+        toast.error(message);
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

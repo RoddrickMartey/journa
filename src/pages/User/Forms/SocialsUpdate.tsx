@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useUserStore } from "@/store/userStore";
 import { userUpdateSocails } from "@/api/authApi";
 import { z } from "zod";
+import { isAxiosError } from "axios";
 
 /* =======================
    Schema
@@ -65,9 +66,14 @@ function SocialsUpdate() {
       toast.success("Socials updated");
       setEditSocials(false);
       reset({ socials: res.socials });
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
+    } catch (error: Error | unknown) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message || "Something went wrong";
+        toast.error(message);
+      } else {
+        toast.error("Something went wrong");
+      }
+
       reset({ socials: profile?.socials ?? [] });
     }
   };

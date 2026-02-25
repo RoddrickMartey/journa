@@ -3,8 +3,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/getInitials";
 import { LikesCount, ReadTime, ViewsCount } from "@/components/PostItemCounts";
 import { useTheme } from "@/context/theme-context";
+import { useNavigate } from "react-router-dom";
 
 function FeaturedPostItem({ post }: { post: FeaturedPost }) {
+  const navigate = useNavigate();
   const profile = post.author.profile;
   const { theme } = useTheme();
 
@@ -41,7 +43,11 @@ function FeaturedPostItem({ post }: { post: FeaturedPost }) {
 
         {/* Title + Cover */}
         <div className="flex items-start justify-between space-x-2">
-          <p className="font-semibold text-sm md:text-lg line-clamp-2 flex-1 hover:underline cursor-pointer">
+          <p
+            className="font-semibold text-sm md:text-lg line-clamp-2 flex-1 hover:underline cursor-pointer"
+            title={post.title}
+            onClick={() => navigate("/auth/login")}
+          >
             {post.title}
           </p>
           {post.coverImageUrl && (

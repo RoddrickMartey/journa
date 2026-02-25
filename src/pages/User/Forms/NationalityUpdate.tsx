@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input";
 import CountryFlag from "@/components/CountryFlag";
 import { countryFlagMap } from "@/data/countriesWithFlags";
 import { toast } from "sonner";
+import { isAxiosError } from "axios";
 
 // Schema
 const userUpdateNationalitySchema = z.object({
@@ -66,9 +67,13 @@ function NationalityUpdate() {
       reset({ nationality: result.nationality });
       setFilter(result.nationality || "");
       toast.success("Nationality updated successfully");
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to update nationality");
+    } catch (error: Error | unknown) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message || "Something went wrong";
+        toast.error(message);
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

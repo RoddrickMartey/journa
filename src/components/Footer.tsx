@@ -5,24 +5,29 @@ import { Button } from "./ui/button";
 
 const footerLinks = {
   product: [
-    { name: "Features", href: "/features" },
-    { name: "Feed", href: "/posts" },
-    { name: "Create Post", href: "/posts/new" },
+    { name: "Features", href: "#" },
+    { name: "Feed", href: "#" },
+    { name: "Create Post", href: "#" },
   ],
   company: [
-    { name: "About Us", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "Terms", href: "/terms" },
+    { name: "About Us", href: "#" },
+    { name: "Contact", href: "#" },
+    { name: "Terms", href: "#" },
   ],
   social: [
-    { name: "GitHub", icon: Github, href: "https://github.com" },
-    { name: "Twitter", icon: Twitter, href: "https://twitter.com" },
-    { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com" },
+    { name: "GitHub", icon: Github, href: "#" },
+    { name: "Twitter", icon: Twitter, href: "#" },
+    { name: "LinkedIn", icon: Linkedin, href: "#" },
   ],
 };
 
 function Footer() {
   const currentYear = new Date().getFullYear();
+
+  // Helper to prevent link navigation
+  const handleDisableLink = (e: React.MouseEvent) => {
+    e.preventDefault();
+  };
 
   return (
     <footer className="w-full border-t bg-background/50 backdrop-blur-sm">
@@ -38,7 +43,11 @@ function Footer() {
             <div className="flex gap-x-2">
               {footerLinks.social.map((item) => (
                 <Button key={item.name} variant="ghost" size="icon" asChild>
-                  <a href={item.href} target="_blank" rel="noreferrer">
+                  <a
+                    href={item.href}
+                    onClick={handleDisableLink}
+                    className="cursor-default"
+                  >
                     <item.icon className="h-4 w-4" />
                     <span className="sr-only">{item.name}</span>
                   </a>
@@ -59,7 +68,8 @@ function Footer() {
                     <li key={item.name}>
                       <Link
                         to={item.href}
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        onClick={handleDisableLink}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-default"
                       >
                         {item.name}
                       </Link>
@@ -76,7 +86,8 @@ function Footer() {
                     <li key={item.name}>
                       <Link
                         to={item.href}
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        onClick={handleDisableLink}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-default"
                       >
                         {item.name}
                       </Link>
@@ -94,7 +105,10 @@ function Footer() {
               <p className="mt-6 text-sm text-muted-foreground">
                 Subscribe to our newsletter for the latest updates.
               </p>
-              <form className="mt-4 flex max-w-md gap-x-2">
+              <form
+                className="mt-4 flex max-w-md gap-x-2 items-center"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <input
                   type="email"
                   required
@@ -115,12 +129,17 @@ function Footer() {
             &copy; {currentYear} YourBrand Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-x-4 text-xs text-muted-foreground">
-            <Link to="/privacy" className="hover:underline">
+            <Link
+              to="#"
+              onClick={handleDisableLink}
+              className="hover:underline cursor-default"
+            >
               Privacy Policy
             </Link>
             <Link
-              to="/status"
-              className="flex items-center gap-1 hover:underline"
+              to="#"
+              onClick={handleDisableLink}
+              className="flex items-center gap-1 hover:underline cursor-default"
             >
               System Status <ExternalLink className="h-3 w-3" />
             </Link>

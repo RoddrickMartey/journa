@@ -12,7 +12,7 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Eye, EyeClosed, Key, User } from "lucide-react";
+import { Eye, EyeClosed, Info, Key, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Link, useNavigate } from "react-router-dom";
@@ -41,14 +41,22 @@ function LoginPage() {
   const navigate = useNavigate();
   const { setUser } = useUserStore();
   const { logoutUser } = useAdminStore();
+
   const {
     register,
     handleSubmit,
+    setValue, // Added to allow auto-filling guest credentials
     formState: { errors, isSubmitting },
   } = useForm<UserLoginType>({
     resolver: zodResolver(userLoginSchema),
     mode: "onSubmit",
   });
+
+  const handleGuestAutoFill = () => {
+    setValue("username", "guestdough");
+    setValue("password", "guestpassword");
+    toast.info("Guest credentials filled!");
+  };
 
   const onSubmit = async (data: UserLoginType) => {
     try {
@@ -73,11 +81,10 @@ function LoginPage() {
         {/* Logo & Header */}
         <div className="flex flex-col items-center gap-4">
           <div className="flex w-full justify-between items-center mb-2">
-            <div className="w-10" /> {/* Spacer for centering logic */}
+            <div className="w-10" />
             <LogoDisplay type="card" />
             <ThemeToggle />
           </div>
-          {/* Increased font weight and used primary color for the label to anchor the design */}
           <Label className="text-2xl font-serif font-bold tracking-tight text-foreground">
             Login
           </Label>
@@ -151,8 +158,44 @@ function LoginPage() {
           </Button>
         </form>
 
+        {/* Guest Access Section */}
+        <section className="p-3 rounded-xl border border-primary/10 bg-primary/5 dark:bg-primary/10 transition-all">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 text-primary">
+              <Info className="w-4 h-4" />
+            </div>
+            <div className="flex flex-col gap-2 w-full">
+              <div className="flex justify-between items-center">
+                <p className="text-xs font-bold uppercase tracking-wider text-primary/80">
+                  Demo Account
+                </p>
+                <button
+                  onClick={handleGuestAutoFill}
+                  className="text-[10px] bg-primary/10 hover:bg-primary/20 text-primary px-2 py-0.5 rounded-md transition-colors font-semibold"
+                >
+                  Auto-fill
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                <p>
+                  User:{" "}
+                  <span className="font-mono font-medium text-foreground">
+                    guestdough
+                  </span>
+                </p>
+                <p>
+                  Pass:{" "}
+                  <span className="font-mono font-medium text-foreground">
+                    guestpassword
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Footer */}
-        <div className="flex flex-wrap justify-center items-center gap-x-2 text-sm mt-2 text-center">
+        <div className="flex flex-wrap justify-center items-center gap-x-2 text-sm text-center">
           <span className="text-muted-foreground">Don't have an account?</span>
           <Link
             to="/auth/signup"
