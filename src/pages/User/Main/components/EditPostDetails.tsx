@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -71,12 +71,25 @@ function EditPostDetails({ post, postId }: Props) {
     },
   });
 
+  const summaryValue = useWatch({
+    control: form.control,
+    name: "summary",
+  });
+
+  const tagsValue = useWatch({
+    control: form.control,
+    name: "tags",
+  });
+
   // Normalize null/empty before sending PATCH payload
   const normalizePayload = (
     values: Partial<UpdatePost>,
   ): UpdatePostPayload => ({
     ...values,
-    summary: values.summary === undefined ? undefined : values.summary || null,
+    summary:
+      values.summary === "" || values.summary === null
+        ? undefined
+        : values.summary,
   });
 
   const { mutate: updateField, isPending: isInputUpdate } = useMutation({
@@ -263,11 +276,13 @@ function EditPostDetails({ post, postId }: Props) {
             <div className="flex-1">
               <InputGroupTextarea
                 {...form.register("summary")}
+                // Ensure the value being watched isn't null
+                value={summaryValue ?? ""}
                 className="min-h-25 border rounded-lg bg-input"
                 disabled={isInputUpdate}
               />
               <p className="text-[10px] text-muted-foreground mt-1 text-right">
-                {Math.max(250 - (form.watch("summary")?.length || 0), 0)}{" "}
+                {Math.max(250 - (summaryValue?.length || 0), 0)}{" "}
                 characters left
               </p>
             </div>
@@ -306,7 +321,7 @@ function EditPostDetails({ post, postId }: Props) {
               />
 
               <div className="flex flex-wrap gap-2">
-                {form.watch("tags")?.map((tag) => (
+                {tagsValue?.map((tag) => (
                   <span
                     key={tag}
                     className="bg-muted px-2 py-1 rounded-md text-xs flex items-center gap-1"

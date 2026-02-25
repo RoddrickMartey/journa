@@ -136,7 +136,7 @@ function UserPostsPage() {
           {/* 1. Loading State */}
           {!data && isFetching ? (
             <div className="mt-10 flex flex-col items-center gap-2 w-full">
-              {[1, 2, 3].map((p, i) => (
+              {[1, 2, 3].map((_p, i) => (
                 <PostCardSkeleton key={i} />
               ))}
             </div>
