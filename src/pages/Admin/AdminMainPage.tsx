@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion"; // Added Variants type
 import { Button } from "@/components/ui/button";
 import {
   Users,
@@ -93,7 +93,8 @@ function AdminMainPage() {
     return baseCards;
   }, [isSuper]);
 
-  const containerVariants = {
+  // Explicitly typing variants to avoid index signature errors
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -104,24 +105,24 @@ function AdminMainPage() {
     },
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.4,
-        ease: "easeOut",
+        ease: "easeOut" as const, // Added as const
       },
     },
   };
 
-  const hoverVariants = {
+  const hoverVariants: Variants = {
     hover: {
       y: -5,
       transition: {
         duration: 0.3,
-        ease: "easeOut",
+        ease: "easeOut" as const, // Added as const
       },
     },
   };
@@ -160,7 +161,6 @@ function AdminMainPage() {
             >
               <motion.div variants={hoverVariants}>
                 <div className="flex flex-col h-full">
-                  {/* Icon */}
                   <motion.div
                     className="mb-4 text-foreground/80 group-hover:text-foreground transition-colors"
                     whileHover={{ scale: 1.1, rotate: 5 }}
@@ -169,17 +169,14 @@ function AdminMainPage() {
                     {card.icon}
                   </motion.div>
 
-                  {/* Title */}
                   <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2">
                     {card.title}
                   </h2>
 
-                  {/* Description */}
                   <p className="text-sm text-muted-foreground mb-6 grow">
                     {card.description}
                   </p>
 
-                  {/* Button */}
                   <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.95 }}>
                     <Button
                       variant="outline"
